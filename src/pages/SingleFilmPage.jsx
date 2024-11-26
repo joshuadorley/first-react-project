@@ -2,24 +2,30 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const SingleFilmPage = () => {
-  const [item, setItem] = useState({});
   const { id } = useParams();
-
-  const getFilm = () => {
-    fetch(`https://studioghibliapi-d6fc8.web.app/films/${id}`)
-      .then((res) => res.json())
-      .then((data) => setItem(data))
-      .catch((err) => console.error("Error fetching film:", err));
-  };
+  const [item, setItem] = useState({});
 
   useEffect(() => {
+    const getFilm = async () => {
+      try {
+        const response = await fetch(`https://studioghibliapi-d6fc8.web.app/films/${id}`);
+        const result = await response.json();
+        console.log(result);
+        setItem(result);
+      } catch (error) {
+        console.error("Error fetching film:", error);
+      }
+    };
+
     getFilm();
-  }, []);
+  }, [id]);
 
   return (
     <div>
       <div>
-        <img src={`${item.image}`} alt={`${item.title} Poster`} />
+        {item.image && (
+          <img src={item.image} alt={`${item.title} Poster`} />
+        )}
       </div>
       <div>
         <h1>{item.title}</h1>
