@@ -1,45 +1,67 @@
 import React, { useState } from "react";
-import { filterFilmsByDirector, getListOf } from "../helpers/filmHelpers";
+import { Link } from "react-router-dom";
+import { filterFilmsByDirector, getListOf, getFilmStats } from "../helpers/filmHelpers";
 
 const films = [
-  { title: "Castle in the Sky", director: "Hayao Miyazaki" },
-  { title: "Grave of the Fireflies", director: "Isao Takahata" },
-  { title: "My Neighbor Totoro", director: "Hayao Miyazaki" },
+  { id: 1, title: "Castle in the Sky", director: "Hayao Miyazaki", rt_score: "95", release_date: "1986" },
+  { id: 2, title: "My Neighbor Totoro", director: "Hayao Miyazaki", rt_score: "93", release_date: "1988" },
+  { id: 3, title: "Grave of the Fireflies", director: "Isao Takahata", rt_score: "94", release_date: "1988" },
 ];
 
-function FilmsPage() {
+const FilmsPage = () => {
   const [searchDirector, setSearchDirector] = useState("");
 
-  const filmsByDirector = filterFilmsByDirector(films, searchDirector);
+  const filteredFilms = filterFilmsByDirector(films, searchDirector);
   const directors = getListOf(films, "director");
+  const { avg_score, total, latest } = getFilmStats(filteredFilms);
 
   return (
     <div>
-      <h1>Studio Ghibli Films</h1>
+      <h1>Films</h1>
       <form>
         <div className="formGroup">
-          <label htmlFor="director-filter">Filter by Director:</label>
+          <label htmlFor="directorFilter">Filter by Director:</label>
           <select
-            id="director-filter"
+            id="directorFilter"
             value={searchDirector}
             onChange={(e) => setSearchDirector(e.target.value)}
           >
             <option value="">All Directors</option>
-            {directors.map((director, index) => (
-              <option key={index} value={director}>
+            {directors.map((director) => (
+              <option key={director} value={director}>
                 {director}
               </option>
             ))}
           </select>
         </div>
       </form>
+
+      {/* Film Stats */}
+      <div>
+        <div>
+          <span># Of Films</span>
+          <span>{total}</span>
+        </div>
+        <div>
+          <span>Average Rating</span>
+          <span>{avg_score.toFixed(2)}</span>
+        </div>
+        <div>
+          <span>Latest Film</span>
+          <span>{latest}</span>
+        </div>
+      </div>
+
+      {/* Film List */}
       <ul>
-        {filmsByDirector.map((film, index) => (
-          <li key={index}>{film.title} by {film.director}</li>
+        {filteredFilms.map((film) => (
+          <li key={film.id}>
+            <Link to={`/film/${film.id}`}>{film.title}</Link>
+          </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default FilmsPage;
