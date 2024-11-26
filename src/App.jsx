@@ -1,20 +1,12 @@
 import React from "react";
-import { BrowserRouter, NavLink, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HomePage, FilmsPage, SingleFilmPage } from "./pages";
+import Navbar from "./components/Navbar";
 
-const App = () => {
+function App() {
   return (
     <BrowserRouter>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/films">Films</NavLink>
-          </li>
-        </ul>
-      </nav>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/films" element={<FilmsPage />} />
@@ -22,6 +14,6 @@ const App = () => {
       </Routes>
     </BrowserRouter>
   );
-};
+}
 
 export default App;

@@ -3,26 +3,26 @@ import { Link } from "react-router-dom";
 import { filterFilmsByDirector, getListOf, getFilmStats } from "../helpers/filmHelpers";
 
 const films = [
-  { id: 1, title: "Castle in the Sky", director: "Hayao Miyazaki", rt_score: "95", release_date: "1986" },
-  { id: 2, title: "My Neighbor Totoro", director: "Hayao Miyazaki", rt_score: "93", release_date: "1988" },
-  { id: 3, title: "Grave of the Fireflies", director: "Isao Takahata", rt_score: "94", release_date: "1988" },
+  { title: "Castle in the Sky", director: "Hayao Miyazaki", release_date: "1986", rt_score: "95", id: 1 },
+  { title: "Grave of the Fireflies", director: "Isao Takahata", release_date: "1988", rt_score: "97", id: 2 },
+  { title: "My Neighbor Totoro", director: "Hayao Miyazaki", release_date: "1988", rt_score: "93", id: 3 },
 ];
 
-const FilmsPage = () => {
+function FilmsPage() {
   const [searchDirector, setSearchDirector] = useState("");
 
-  const filteredFilms = filterFilmsByDirector(films, searchDirector);
   const directors = getListOf(films, "director");
-  const { avg_score, total, latest } = getFilmStats(filteredFilms);
+  const filteredFilms = filterFilmsByDirector(films, searchDirector);
+  const { total, avg_score, latest } = getFilmStats(filteredFilms);
 
   return (
     <div>
       <h1>Films</h1>
       <form>
         <div className="formGroup">
-          <label htmlFor="directorFilter">Filter by Director:</label>
+          <label htmlFor="director">Filter by Director:</label>
           <select
-            id="directorFilter"
+            id="director"
             value={searchDirector}
             onChange={(e) => setSearchDirector(e.target.value)}
           >
@@ -36,7 +36,6 @@ const FilmsPage = () => {
         </div>
       </form>
 
-      {/* Film Stats */}
       <div>
         <div>
           <span># Of Films</span>
@@ -52,7 +51,6 @@ const FilmsPage = () => {
         </div>
       </div>
 
-      {/* Film List */}
       <ul>
         {filteredFilms.map((film) => (
           <li key={film.id}>
@@ -62,6 +60,6 @@ const FilmsPage = () => {
       </ul>
     </div>
   );
-};
+}
 
 export default FilmsPage;
