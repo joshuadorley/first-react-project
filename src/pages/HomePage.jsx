@@ -1,12 +1,11 @@
 import React from "react";
 
-const HomePage = () => {
+function HomePage() {
   return (
     <div>
-      <h1>Welcome to Studio Ghibli Films!</h1>
-      <p>Explore the magical world of Studio Ghibli movies.</p>
+      <h1>Welcome to the Studio Ghibli Films App</h1>
     </div>
   );
-};
+}
 
 export default HomePage;
